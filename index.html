@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exchange4Students Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div>
+          <p class="eyebrow">Campus Marketplace</p>
+          <h1>Exchange4Students</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" id="resetDataBtn" type="button">Reset Demo Data</button>
+          <button class="primary-button" type="button" data-scroll-target="sellPanel">Post an Item</button>
+        </div>
+      </nav>
+
+      <section class="hero-content">
+        <div class="hero-copy">
+          <p class="hero-badge">Buy smarter. Sell faster. Meet safely on campus.</p>
+          <h2>A student-first marketplace for textbooks, tech, furniture, and everyday essentials.</h2>
+          <p>
+            Browse listings, connect with sellers, save favorites, and keep track of the items you want before they disappear.
+          </p>
+          <div class="hero-stats" id="heroStats"></div>
+        </div>
+
+        <aside class="hero-panel">
+          <h3>Marketplace Snapshot</h3>
+          <div class="snapshot-grid">
+            <article>
+              <span id="listingCount">0</span>
+              <p>Active listings</p>
+            </article>
+            <article>
+              <span id="favoriteCount">0</span>
+              <p>Saved items</p>
+            </article>
+            <article>
+              <span id="interestCount">0</span>
+              <p>Interest cart</p>
+            </article>
+            <article>
+              <span>24/7</span>
+              <p>Student access</p>
+            </article>
+          </div>
+        </aside>
+      </section>
+    </header>
+
+    <main class="main-grid">
+      <section class="control-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Search and Filter</p>
+            <h3>Find what you need</h3>
+          </div>
+        </div>
+
+        <div class="search-row">
+          <label class="search-input">
+            <span>Keyword</span>
+            <input id="searchInput" type="search" placeholder="Search textbooks, desk lamps, calculators...">
+          </label>
+        </div>
+
+        <div class="filter-grid">
+          <label>
+            <span>Category</span>
+            <select id="categoryFilter">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+          <label>
+            <span>Condition</span>
+            <select id="conditionFilter">
+              <option value="all">Any condition</option>
+              <option value="New">New</option>
+              <option value="Like New">Like New</option>
+              <option value="Good">Good</option>
+              <option value="Fair">Fair</option>
+            </select>
+          </label>
+          <label>
+            <span>Max price</span>
+            <input id="priceFilter" type="range" min="10" max="500" value="500">
+            <strong id="priceFilterValue">$500</strong>
+          </label>
+          <label>
+            <span>Status</span>
+            <select id="availabilityFilter">
+              <option value="all">All items</option>
+              <option value="available">Available only</option>
+              <option value="sold">Sold only</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="quick-actions">
+          <button class="ghost-button" id="favoritesOnlyBtn" type="button">Show Favorites</button>
+          <button class="ghost-button" id="clearFiltersBtn" type="button">Clear Filters</button>
+        </div>
+      </section>
+
+      <section class="market-column">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Marketplace Feed</p>
+            <h3>Available listings</h3>
+          </div>
+          <p class="result-count" id="resultsLabel">0 results</p>
+        </div>
+        <div class="listing-grid" id="listingGrid"></div>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel" id="sellPanel">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Sell Something</p>
+              <h3>Create a listing</h3>
+            </div>
+          </div>
+
+          <form id="listingForm" class="listing-form">
+            <label>
+              <span>Item title</span>
+              <input name="title" type="text" maxlength="60" required placeholder="TI-84 Plus Calculator">
+            </label>
+            <label>
+              <span>Category</span>
+              <select name="category" required>
+                <option value="">Select a category</option>
+                <option value="Textbooks">Textbooks</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="School Supplies">School Supplies</option>
+                <option value="Dorm Essentials">Dorm Essentials</option>
+              </select>
+            </label>
+            <label>
+              <span>Price</span>
+              <input name="price" type="number" min="1" step="1" required placeholder="45">
+            </label>
+            <label>
+              <span>Condition</span>
+              <select name="condition" required>
+                <option value="">Select condition</option>
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+              </select>
+            </label>
+            <label>
+              <span>Seller name</span>
+              <input name="seller" type="text" maxlength="40" required placeholder="Nica Saoi">
+            </label>
+            <label>
+              <span>Contact email</span>
+              <input name="email" type="email" required placeholder="nsaoi@stevens.edu">
+            </label>
+            <label>
+              <span>Pickup location</span>
+              <input name="pickup" type="text" maxlength="50" required placeholder="Library lobby">
+            </label>
+            <label class="full-width">
+              <span>Description</span>
+              <textarea name="description" rows="4" maxlength="180" required placeholder="Briefly describe the item, condition, and what is included."></textarea>
+            </label>
+            <button class="primary-button full-width" type="submit">Publish Listing</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Buyer Tools</p>
+              <h3>Your interest cart</h3>
+            </div>
+          </div>
+          <div id="interestList" class="compact-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Saved Items</p>
+              <h3>Favorites</h3>
+            </div>
+          </div>
+          <div id="favoritesList" class="compact-list"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <template id="listingCardTemplate">
+    <article class="listing-card">
+      <div class="listing-top">
+        <div>
+          <p class="item-category"></p>
+          <h4 class="item-title"></h4>
+        </div>
+        <span class="status-pill"></span>
+      </div>
+      <p class="item-description"></p>
+      <div class="meta-grid">
+        <div>
+          <span class="meta-label">Condition</span>
+          <strong class="item-condition"></strong>
+        </div>
+        <div>
+          <span class="meta-label">Pickup</span>
+          <strong class="item-pickup"></strong>
+        </div>
+        <div>
+          <span class="meta-label">Seller</span>
+          <strong class="item-seller"></strong>
+        </div>
+        <div>
+          <span class="meta-label">Contact</span>
+          <strong class="item-email"></strong>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div>
+          <span class="meta-label">Price</span>
+          <p class="item-price"></p>
+        </div>
+        <div class="card-actions">
+          <button class="ghost-button favorite-button" type="button"></button>
+          <button class="primary-button interest-button" type="button"></button>
+          <button class="ghost-button sold-button" type="button"></button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
