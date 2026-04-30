@@ -62,6 +62,18 @@ textarea {
   font: inherit;
 }
 
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+:root[data-theme="dark"] ::placeholder {
+  color: var(--muted);
+}
+
 .page-shell {
   width: min(1400px, calc(100% - 32px));
   margin: 24px auto 48px;
