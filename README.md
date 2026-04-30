@@ -29,5 +29,5 @@ Exchange4Students is a browser-based student marketplace for buying and selling 
 ## Notes
 
 - Data is stored locally in the browser for demo purposes.
-- Use the "Reset Demo Data" button in the app to restore the default sample listings.
+- Use the "Dark/Light Mode" button to change UI appearance.
 - Database file is not stored on github
