@@ -154,12 +154,27 @@ function populateCategoryOptions() {
   }
 }
 
+async function addListing(dataJson)
+{
+  const request = new Request("http://localhost:3000/api/make_listing", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(dataJson),
+  });
+  const response = await fetch(request);
+  console.log("Sent request");
+  console.log(request);
+  console.log(response.status);
+}
+
 function handleListingSubmit() {
   event.preventDefault();
 
   const formData = new FormData(listingForm);
-  const newListing = {
-    id: crypto.randomUUID(),
+  const newListingObject = {
+    id: state.listings.length + 1,
     title: formData.get("title").trim(),
     category: formData.get("category"),
     price: Number(formData.get("price")),
@@ -173,7 +188,23 @@ function handleListingSubmit() {
     isUserListing: true
   };
 
+  const newListing = [
+    newListingObject.id,
+    newListingObject.title,
+    newListingObject.category,
+    newListingObject.price,
+    newListingObject.condition,
+    newListingObject.seller,
+    newListingObject.email,
+    newListingObject.pickup,
+    newListingObject.description,
+    newListingObject.status,
+    newListingObject.createdAt,
+    newListingObject.isUserListing
+  ]
+
   state.listings.unshift(newListing);
+  addListing(newListingObject);
   // saveState();
   listingForm.reset();
   populateMissingCategory(newListing.category);

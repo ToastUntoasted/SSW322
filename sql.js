@@ -125,7 +125,7 @@ export async function getAllListings()
   let sql = `SELECT * FROM products`;
   try {
     const products = await fetchAll(db, sql);
-    console.log(products);
+    console.log(products[0]);
     return products
   } catch (err) {
     console.log(err);
