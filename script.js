@@ -86,7 +86,7 @@ const priceFilterValue = document.getElementById("priceFilterValue");
 const availabilityFilter = document.getElementById("availabilityFilter");
 const favoritesOnlyBtn = document.getElementById("favoritesOnlyBtn");
 const clearFiltersBtn = document.getElementById("clearFiltersBtn");
-const resetDataBtn = document.getElementById("resetDataBtn");
+const darkModeBtn = document.getElementById("darkModeBtn");
 const resultsLabel = document.getElementById("resultsLabel");
 const favoritesList = document.getElementById("favoritesList");
 const interestList = document.getElementById("interestList");
@@ -98,6 +98,7 @@ const heroStats = document.getElementById("heroStats");
 var state = null;
 
 function initialize() {
+  initializeDarkMode();
   populateCategoryOptions();
   bindEvents();
   updatePriceLabel();
@@ -133,7 +134,7 @@ function bindEvents() {
     render();
   });
   clearFiltersBtn.addEventListener("click", clearFilters);
-  resetDataBtn.addEventListener("click", resetDemoData);
+  darkModeBtn.addEventListener("click", toggleDarkMode);
 
   document.querySelectorAll("[data-scroll-target]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -203,7 +204,7 @@ function handleListingSubmit() {
     newListingObject.isUserListing
   ]
 
-  state.listings.unshift(newListing);
+  state.listings.unshift(newListingObject);
   addListing(newListingObject);
   // saveState();
   listingForm.reset();
@@ -233,14 +234,18 @@ function clearFilters() {
   render();
 }
 
-async function resetDemoData() {
-  await resetTable();
-  state.listings = [...seedListings];
-  state.favorites = [];
-  state.interests = [];
-  state.favoritesOnly = false;
-  clearFilters();
-  // saveState();
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute("data-theme") === "dark";
+  html.setAttribute("data-theme", isDark ? "light" : "dark");
+  localStorage.setItem("theme", isDark ? "light" : "dark");
+  darkModeBtn.textContent = isDark ? "Dark Mode" : "Light Mode";
+}
+
+function initializeDarkMode() {
+  const saved = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-theme", saved);
+  darkModeBtn.textContent = saved === "dark" ? "Light Mode" : "Dark Mode";
 }
 
 function render() {
