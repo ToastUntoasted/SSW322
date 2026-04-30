@@ -84,7 +84,34 @@ export async function resetTable() {
       db,
       sql
     );
-
+    await addListing([
+    1,
+    "Calculus I Textbook Bundle",
+    "Textbooks",
+    55,
+    "Good",
+    "Jacky Lei",
+    "jlei@stevens.edu",
+    "Science Hall entrance",
+    "Includes textbook, formula sheet packet, and lightly used notebook from last semester.",
+    "available",
+    "2026-03-24T15:00:00.000Z",
+    0
+    ]);
+    await addListing([
+    2,
+    "Calculus I Textbook Bundle",
+    "Textbooks",
+    55,
+    "Good",
+    "Jacky Lei",
+    "jlei@stevens.edu",
+    "Science Hall entrance",
+    "Includes textbook, formula sheet packet, and lightly used notebook from last semester.",
+    "available",
+    "2026-03-24T15:00:00.000Z",
+    0
+    ]);
   } catch (error) {
     console.log(error);
   } finally {
@@ -99,6 +126,7 @@ export async function getAllListings()
   try {
     const products = await fetchAll(db, sql);
     console.log(products);
+    return products
   } catch (err) {
     console.log(err);
   } finally {

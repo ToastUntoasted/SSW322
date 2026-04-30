@@ -1,79 +1,79 @@
 const STORAGE_KEY = "exchange4students.marketplace.v1";
 
-const seedListings = [
-  {
-    id: crypto.randomUUID(),
-    title: "Calculus I Textbook Bundle",
-    category: "Textbooks",
-    price: 55,
-    condition: "Good",
-    seller: "Jacky Lei",
-    email: "jlei@stevens.edu",
-    pickup: "Science Hall entrance",
-    description: "Includes textbook, formula sheet packet, and lightly used notebook from last semester.",
-    status: "available",
-    createdAt: "2026-03-24T15:00:00.000Z",
-    isUserListing: false
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Mini Fridge 3.2 cu ft",
-    category: "Dorm Essentials",
-    price: 85,
-    condition: "Like New",
-    seller: "Kayla Holmes",
-    email: "kholmes@stevens.edu",
-    pickup: "Oak Residence Hall",
-    description: "Perfect for dorm rooms, very clean, and keeps drinks cold fast. Pickup only.",
-    status: "available",
-    createdAt: "2026-03-26T18:30:00.000Z",
-    isUserListing: false
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Desk Lamp with USB Charging Port",
-    category: "Furniture",
-    price: 22,
-    condition: "Good",
-    seller: "Robert Galletta",
-    email: "rgalletta@stevens.edu",
-    pickup: "Student Union",
-    description: "LED desk lamp with brightness settings and built-in charging port for phone or earbuds.",
-    status: "available",
-    createdAt: "2026-03-28T12:15:00.000Z",
-    isUserListing: false
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "TI-84 Plus Graphing Calculator",
-    category: "School Supplies",
-    price: 48,
-    condition: "Fair",
-    seller: "Ying Wang",
-    email: "ywang@stevens.edu",
-    pickup: "Library front desk",
-    description: "Works well, slight scratches on the cover, batteries included.",
-    status: "available",
-    createdAt: "2026-03-29T10:20:00.000Z",
-    isUserListing: false
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Noise-Canceling Headphones",
-    category: "Electronics",
-    price: 95,
-    condition: "Like New",
-    seller: "Nica Saoi",
-    email: "nsaoi@stevens.edu",
-    pickup: "Engineering building lobby",
-    description: "Used for one semester, includes charger case and original box.",
-    status: "sold",
-    createdAt: "2026-03-20T09:00:00.000Z",
-    isUserListing: false
-  }
-];
 
-const state = loadState();
+// const seedListings = [
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Calculus I Textbook Bundle",
+//     category: "Textbooks",
+//     price: 55,
+//     condition: "Good",
+//     seller: "Jacky Lei",
+//     email: "jlei@stevens.edu",
+//     pickup: "Science Hall entrance",
+//     description: "Includes textbook, formula sheet packet, and lightly used notebook from last semester.",
+//     status: "available",
+//     createdAt: "2026-03-24T15:00:00.000Z",
+//     isUserListing: false
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Mini Fridge 3.2 cu ft",
+//     category: "Dorm Essentials",
+//     price: 85,
+//     condition: "Like New",
+//     seller: "Kayla Holmes",
+//     email: "kholmes@stevens.edu",
+//     pickup: "Oak Residence Hall",
+//     description: "Perfect for dorm rooms, very clean, and keeps drinks cold fast. Pickup only.",
+//     status: "available",
+//     createdAt: "2026-03-26T18:30:00.000Z",
+//     isUserListing: false
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Desk Lamp with USB Charging Port",
+//     category: "Furniture",
+//     price: 22,
+//     condition: "Good",
+//     seller: "Robert Galletta",
+//     email: "rgalletta@stevens.edu",
+//     pickup: "Student Union",
+//     description: "LED desk lamp with brightness settings and built-in charging port for phone or earbuds.",
+//     status: "available",
+//     createdAt: "2026-03-28T12:15:00.000Z",
+//     isUserListing: false
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     title: "TI-84 Plus Graphing Calculator",
+//     category: "School Supplies",
+//     price: 48,
+//     condition: "Fair",
+//     seller: "Ying Wang",
+//     email: "ywang@stevens.edu",
+//     pickup: "Library front desk",
+//     description: "Works well, slight scratches on the cover, batteries included.",
+//     status: "available",
+//     createdAt: "2026-03-29T10:20:00.000Z",
+//     isUserListing: false
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     title: "Noise-Canceling Headphones",
+//     category: "Electronics",
+//     price: 95,
+//     condition: "Like New",
+//     seller: "Nica Saoi",
+//     email: "nsaoi@stevens.edu",
+//     pickup: "Engineering building lobby",
+//     description: "Used for one semester, includes charger case and original box.",
+//     status: "sold",
+//     createdAt: "2026-03-20T09:00:00.000Z",
+//     isUserListing: false
+//   }
+// ];
+
 
 const listingGrid = document.getElementById("listingGrid");
 const listingTemplate = document.getElementById("listingCardTemplate");
@@ -95,7 +95,7 @@ const favoriteCount = document.getElementById("favoriteCount");
 const interestCount = document.getElementById("interestCount");
 const heroStats = document.getElementById("heroStats");
 
-initialize();
+var state = null;
 
 function initialize() {
   populateCategoryOptions();
@@ -104,24 +104,18 @@ function initialize() {
   render();
 }
 
-function loadState() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-
-  if (saved) {
-    return JSON.parse(saved);
-  }
-
+async function loadState() {
   return {
-    listings: seedListings,
+    listings: await getAllListings(),
     favorites: [],
     interests: [],
     favoritesOnly: false
   };
 }
 
-function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
+// function saveState() {
+//   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+// }
 
 function bindEvents() {
   listingForm.addEventListener("submit", handleListingSubmit);
@@ -149,7 +143,8 @@ function bindEvents() {
 }
 
 function populateCategoryOptions() {
-  const categories = [...new Set(seedListings.map((listing) => listing.category))];
+  console.log(state.listing);
+  const categories = [...new Set(state.listings.map((listing) => listing.category))];
 
   for (const category of categories) {
     const option = document.createElement("option");
@@ -159,7 +154,7 @@ function populateCategoryOptions() {
   }
 }
 
-function handleListingSubmit(event) {
+function handleListingSubmit() {
   event.preventDefault();
 
   const formData = new FormData(listingForm);
@@ -179,7 +174,7 @@ function handleListingSubmit(event) {
   };
 
   state.listings.unshift(newListing);
-  saveState();
+  // saveState();
   listingForm.reset();
   populateMissingCategory(newListing.category);
   render();
@@ -207,13 +202,14 @@ function clearFilters() {
   render();
 }
 
-function resetDemoData() {
+async function resetDemoData() {
+  await resetTable();
   state.listings = [...seedListings];
   state.favorites = [];
   state.interests = [];
   state.favoritesOnly = false;
   clearFilters();
-  saveState();
+  // saveState();
 }
 
 function render() {
@@ -222,7 +218,7 @@ function render() {
   renderCompactList(favoritesList, state.favorites, "favorites");
   renderCompactList(interestList, state.interests, "interests");
   renderDashboard(filteredListings);
-  saveState();
+  // saveState();
 }
 
 function getFilteredListings() {
@@ -400,3 +396,29 @@ function formatCurrency(amount) {
     maximumFractionDigits: 0
   }).format(amount);
 }
+
+async function getAllListings() 
+{
+  console.log('getAllListings called');
+  const response = await fetch("http://localhost:3000/api/listings");
+  return await response.json();
+}
+
+async function main()
+{
+  try {
+    const seedListings = await getAllListings();
+    // console.log(seedListings);
+  } catch (err) {
+    console.log(err);
+  }
+  state = await loadState();
+  console.log("moo");
+  console.log(state.listings);
+  console.log(state);
+  setTimeout(() => {
+    console.log("Waited 1 second!");
+  }, 1000); 
+  initialize();
+}
+main();
